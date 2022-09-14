@@ -9,6 +9,14 @@ class SharedCore {
   static final timeFormat = DateFormat.jm();
   static final dateTimeFormat = DateFormat('dd-MM-yyyy').add_jm();
 
+  static AppBar buildAppBar({
+    required String title,
+  }) {
+    return AppBar(
+      title: Text(title),
+    );
+  }
+
   static Widget buildRoundedOutlinedButton({
     required String btnText,
     required VoidCallback onPress,

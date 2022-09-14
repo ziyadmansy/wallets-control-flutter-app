@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 class WalletModel {
   final int id;
   final String name;
   final String imgUrl;
-  final int color;
+  final Color color;
   final String number;
   final double spentBalance;
   final double remainingBalance;
@@ -25,7 +27,7 @@ class WalletModel {
     int? id,
     String? name,
     String? imgUrl,
-    int? color,
+    Color? color,
     String? number,
     double? spentBalance,
     double? remainingBalance,
