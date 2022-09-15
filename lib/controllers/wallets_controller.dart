@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallets_control/models/wallet.dart';
-import 'package:wallets_control/shared/constants.dart';
 
 class WalletsController extends GetxController {
   RxList<WalletModel> wallets = <WalletModel>[
@@ -20,7 +19,7 @@ class WalletsController extends GetxController {
       name: 'Etisalat Cash',
       imgUrl: 'https://logodix.com/logo/497290.png',
       color: Color(0xff78A22F),
-      number: '01123843232',
+      number: '01156892514',
       spentBalance: 500,
       remainingBalance: 1000,
       isActivated: true,

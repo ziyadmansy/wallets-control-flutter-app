@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:wallets_control/models/wallet.dart';
 import 'package:wallets_control/shared/constants.dart';
+import 'package:wallets_control/shared/routes.dart';
 
 class WalletCard extends StatelessWidget {
   final WalletModel wallet;
@@ -48,77 +50,83 @@ class WalletCard extends StatelessWidget {
       ),
       color: wallet.color,
       elevation: 8,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.network(
-                      wallet.imgUrl,
-                      height: 75,
-                      width: 75,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(kBorderRadius),
+        onTap: () {
+          Get.toNamed(AppRoutes.walletTransactionsRoute);
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.network(
+                        wallet.imgUrl,
+                        height: 75,
+                        width: 75,
+                      ),
                     ),
                   ),
-                ),
-                Text(
-                  wallet.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w900,
-                    fontSize: 22,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: wallet.number.substring(0, wallet.number.length - 4),
+                  Text(
+                    wallet.name,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
-                      fontSize: 24,
-                      letterSpacing: 8,
-                    ),
-                  ),
-                  TextSpan(
-                    text: wallet.number.substring(wallet.number.length - 4),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      
-                      fontSize: 32,
-                      letterSpacing: 8,
+                      fontSize: 22,
                     ),
                   ),
                 ],
               ),
-            ),
-            Divider(
-              color: Colors.white,
-            ),
-            buildWalletCardListTileRow(
-              title: 'Spent Balance',
-              value: wallet.spentBalance,
-            ),
-            buildWalletCardListTileRow(
-              title: 'Remaining Balance',
-              value: wallet.remainingBalance,
-            ),
-          ],
+              SizedBox(
+                height: 16,
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text:
+                          wallet.number.substring(0, wallet.number.length - 4),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 24,
+                        letterSpacing: 8,
+                      ),
+                    ),
+                    TextSpan(
+                      text: wallet.number.substring(wallet.number.length - 4),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 32,
+                        letterSpacing: 8,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(
+                color: Colors.white,
+              ),
+              buildWalletCardListTileRow(
+                title: 'Spent Balance',
+                value: wallet.spentBalance,
+              ),
+              buildWalletCardListTileRow(
+                title: 'Remaining Balance',
+                value: wallet.remainingBalance,
+              ),
+            ],
+          ),
         ),
       ),
     );

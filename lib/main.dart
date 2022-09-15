@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wallets_control/presentation/screens/home_screen.dart';
 import 'package:wallets_control/presentation/screens/login_screen.dart';
 import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/initial_app_binding.dart';
@@ -20,7 +19,7 @@ class WalletsApp extends StatelessWidget {
       title: 'Wallets Control',
       getPages: AppRoutes.routes,
       initialBinding: InitialBindings(),
-      home: LoginScreen(),
+      home: const LoginScreen(),
       theme: ThemeData.light(
         useMaterial3: true,
       ).copyWith(
