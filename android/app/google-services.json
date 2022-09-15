@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "220573397957",
+    "project_id": "wallet-control-55211",
+    "storage_bucket": "wallet-control-55211.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220573397957:android:fca50c6c6ee2dd4ad491ac",
+        "android_client_info": {
+          "package_name": "com.dotapps.wallets_control"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220573397957-v0ve5a75aut11h99r4euv0r6f8bn5i1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-x8RaB3HqPwNdEsPiNiM7gXNMoaKGubU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220573397957-v0ve5a75aut11h99r4euv0r6f8bn5i1l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "220573397957-lmripmig26tjqahbthn8igo1nb5cj46s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dotapps.walletscontrol.walletsControl"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

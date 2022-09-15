@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:wallets_control/presentation/pages/profile_page.dart';
 import 'package:wallets_control/presentation/pages/settings_page.dart';
 import 'package:wallets_control/presentation/pages/wallets_page.dart';
 import 'package:wallets_control/shared/keep_alive.dart';
+import 'package:wallets_control/shared/routes.dart';
 import 'package:wallets_control/shared/shared_core.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -84,8 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.add),
+        onPressed: () {
+          Get.toNamed(AppRoutes.sendMoneyRoute);
+        },
+        child: const Icon(
+          Icons.filter_alt,
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       body: _bottomNavItems[_selectedBottomNav]['body'] as Widget?,
