@@ -52,30 +52,59 @@ class WalletCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.network(
-                  wallet.imgUrl,
-                  height: 75,
-                  width: 75,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                      wallet.imgUrl,
+                      height: 75,
+                      width: 75,
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  wallet.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    fontSize: 22,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 16,
             ),
-            Text(
-              wallet.number,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w900,
-                fontSize: 24,
-                letterSpacing: 8,
+            RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: wallet.number.substring(0, wallet.number.length - 4),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 24,
+                      letterSpacing: 8,
+                    ),
+                  ),
+                  TextSpan(
+                    text: wallet.number.substring(wallet.number.length - 4),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      
+                      fontSize: 32,
+                      letterSpacing: 8,
+                    ),
+                  ),
+                ],
               ),
             ),
             Divider(

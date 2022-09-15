@@ -11,6 +11,8 @@ Color mainColor = Colors.lightBlue[900]!;
 Color redColor = Colors.red[600]!;
 Color greenColor = Colors.greenAccent[700]!;
 
+const String appLogoPath = 'assets/imgs/logo.png';
+
 final kEnabledBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(4),
   borderSide: const BorderSide(

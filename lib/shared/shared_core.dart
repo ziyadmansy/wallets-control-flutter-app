@@ -9,6 +9,10 @@ class SharedCore {
   static final timeFormat = DateFormat.jm();
   static final dateTimeFormat = DateFormat('dd-MM-yyyy').add_jm();
 
+  static Widget buildLoaderIndicator() {
+    return const CircularProgressIndicator.adaptive();
+  }
+
   static AppBar buildAppBar({
     required String title,
   }) {
@@ -59,7 +63,7 @@ class SharedCore {
 
   static Widget buildRoundedElevatedButton({
     required String btnText,
-    required VoidCallback onPress,
+    required VoidCallback? onPress,
     Color? btnColor,
     bool isEnabled = true,
   }) {
@@ -104,7 +108,7 @@ class SharedCore {
   static Widget buildClickableTextForm({
     TextEditingController? controller,
     VoidCallback? onClick,
-    String Function(String? val)? onValidate,
+    String? Function(String? val)? onValidate,
     Function(String? val)? onSaved,
     Function(String? val)? onSubmitted,
     void Function(String? val)? onChanged,
