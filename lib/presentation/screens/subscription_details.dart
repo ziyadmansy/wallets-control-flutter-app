@@ -17,6 +17,36 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
       appBar: SharedCore.buildAppBar(
         title: 'Subscription',
       ),
+      body: ListView(
+        children: const [
+          SizedBox(
+            height: 150,
+            child: Center(
+              child: Text(
+                'Plan Image here',
+                style: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Plan'),
+            trailing: Text('Premium'),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Expiry Date'),
+            trailing: Text('1/1/2023'),
+          ),
+          Divider(),
+          ListTile(
+            title: Text('Max no. of wallets'),
+            trailing: Text('5'),
+          ),
+        ],
+      ),
     );
   }
 }

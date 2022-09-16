@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         FirebaseAuth auth = FirebaseAuth.instance;
 
         await auth.verifyPhoneNumber(
-          phoneNumber: '+2$phone',
+          phoneNumber: phone,
           verificationCompleted: (PhoneAuthCredential credential) async {
             print('verificationCompleted');
             print(credential.asMap());
@@ -150,17 +150,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 8.0,
                 ),
                 SharedCore.buildClickableTextForm(
-                  hint: 'Phone Number',
+                  hint: 'ex: +201022223333',
+                  label: 'Phone Number',
                   inputType: TextInputType.phone,
                   textInputAction: TextInputAction.next,
                   onSubmitted: (text) {
                     FocusScope.of(context).requestFocus(_idNumberFocusNode);
                   },
                   onValidate: (text) {
-                    if (text?.isEmpty ?? true) {
+                    if (text == null || text.isEmpty) {
                       return 'Mobile number missing';
-                    } else if (text?.length != 11) {
-                      return 'Enter a valid mobile number';
+                    } else if (!text.startsWith('+')) {
+                      return 'phone number should start with the country code. ex: (+2)';
+                    } else if (text.length != 13) {
+                      return 'Enter a valid phone number';
                     } else {
                       return null;
                     }
