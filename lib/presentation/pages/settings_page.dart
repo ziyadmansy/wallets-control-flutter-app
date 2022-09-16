@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -28,8 +29,9 @@ class _SettingsPageState extends State<SettingsPage> {
         ListTile(
           title: Text('Logout'),
           leading: Icon(Icons.logout),
-          onTap: () {
-            Get.offNamedUntil(AppRoutes.loginRoute, (route) => false);
+          onTap: () async {
+            FirebaseAuth auth = FirebaseAuth.instance;
+            await auth.signOut();
           },
         ),
       ],

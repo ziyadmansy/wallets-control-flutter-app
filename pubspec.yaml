@@ -24,7 +24,11 @@ dependencies:
   fluttertoast: ^8.0.9
   awesome_dialog: ^3.0.0
   dropdown_search: ^5.0.2
+  
+  # Firebase tools
   firebase_core: ^1.22.0
+  firebase_auth: ^3.9.0
+  firebase_messaging: ^13.0.2
 
 dev_dependencies:
   flutter_test:

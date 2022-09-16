@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,27 +22,27 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String phone = '';
-  String id = '';
 
   bool _isLoading = false;
 
   void _loginMember() async {
-    Get.offAndToNamed(AppRoutes.otpRoute);
-    // TODO: Edit this after testing
-    return;
     final isValid = _formKey.currentState?.validate();
     if (isValid ?? false) {
       _formKey.currentState?.save();
       FocusScope.of(context).unfocus();
 
       try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        final authData = Get.find<AuthController>();
+        
         setState(() {
           _isLoading = true;
         });
+
         // await authData.memberLogin(phone, id);
         // await authData.sendDeviceInfo(1, '');
+        Get.offAndToNamed(
+          AppRoutes.otpRoute,
+          arguments: phone,
+        );
         setState(() {
           _isLoading = false;
         });
