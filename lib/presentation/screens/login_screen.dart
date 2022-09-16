@@ -32,25 +32,67 @@ class _LoginScreenState extends State<LoginScreen> {
       FocusScope.of(context).unfocus();
 
       try {
-        
         setState(() {
           _isLoading = true;
         });
 
-        // await authData.memberLogin(phone, id);
-        // await authData.sendDeviceInfo(1, '');
-        Get.offAndToNamed(
-          AppRoutes.otpRoute,
-          arguments: phone,
+        FirebaseAuth auth = FirebaseAuth.instance;
+
+        await auth.verifyPhoneNumber(
+          phoneNumber: '+2$phone',
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            print('verificationCompleted');
+            print(credential.asMap());
+
+            await auth.signInWithCredential(credential);
+
+            Get.offAndToNamed(AppRoutes.homeRoute);
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            print('verificationFailed');
+            print(e.message);
+            print(e.code);
+            Dialogs.showAwesomeDialog(
+              context: context,
+              title: 'Wrong Credentials(${e.message})',
+              body: 'Wrong pin, please try again',
+              dialogType: DialogType.error,
+              onConfirm: () {
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              onCancel: null,
+            );
+          },
+          codeSent: (String verificationId, int? resendToken) async {
+            print('Code Sent - verificationId: $verificationId');
+
+            setState(() {
+              _isLoading = false;
+            });
+
+            final String otp = await Get.toNamed(
+              AppRoutes.otpRoute,
+              arguments: phone,
+            );
+
+            PhoneAuthCredential credential = PhoneAuthProvider.credential(
+              verificationId: verificationId,
+              smsCode: otp,
+            );
+            // Sign the user in (or link) with the credential
+            await auth.signInWithCredential(credential);
+
+            Get.offAndToNamed(AppRoutes.homeRoute);
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {},
         );
-        setState(() {
-          _isLoading = false;
-        });
-      } on AuthException catch (error) {
+      } on FirebaseAuthException catch (error) {
         Dialogs.showAwesomeDialog(
           context: context,
           title: 'Wrong Credentials',
-          body: error.message,
+          body: error.code,
           dialogType: DialogType.error,
           onConfirm: () {
             setState(() {
@@ -133,7 +175,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: SharedCore.buildRoundedElevatedButton(
-                    btnText: 'Login',
+                    btnChild: _isLoading
+                        ? SharedCore.buildLoaderIndicator()
+                        : Text('Login'),
                     onPress: _isLoading ? null : _loginMember,
                   ),
                 ),

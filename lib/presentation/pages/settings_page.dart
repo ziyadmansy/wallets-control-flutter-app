@@ -32,6 +32,8 @@ class _SettingsPageState extends State<SettingsPage> {
           onTap: () async {
             FirebaseAuth auth = FirebaseAuth.instance;
             await auth.signOut();
+            print('Signed out successfully');
+            Get.toNamed('/');
           },
         ),
       ],

@@ -154,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: SharedCore.buildRoundedElevatedButton(
-                    btnText: 'Register',
+                    btnChild: Text('Register'),
                     onPress: _isLoading ? null : _registerUser,
                   ),
                 ),

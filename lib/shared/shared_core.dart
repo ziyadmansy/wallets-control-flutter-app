@@ -62,7 +62,7 @@ class SharedCore {
       );
 
   static Widget buildRoundedElevatedButton({
-    required String btnText,
+    required Widget btnChild,
     required VoidCallback? onPress,
     Color? btnColor,
     bool isEnabled = true,
@@ -70,7 +70,7 @@ class SharedCore {
     return SizedBox(
       height: 48,
       child: ElevatedButton(
-        child: Text(btnText),
+        child: btnChild,
         style: ElevatedButton.styleFrom(
           backgroundColor: btnColor,
           shape: RoundedRectangleBorder(
