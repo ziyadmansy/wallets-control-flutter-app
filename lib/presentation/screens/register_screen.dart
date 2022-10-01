@@ -20,15 +20,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _idNumberFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
+  String name = '';
   String phone = '';
-  String id = '';
 
   bool _isLoading = false;
 
   void _registerUser() async {
-    Get.offAndToNamed(AppRoutes.otpRoute);
-    // TODO: Edit this after testing
-    return;
     final isValid = _formKey.currentState?.validate();
     if (isValid ?? false) {
       _formKey.currentState?.save();
@@ -107,9 +104,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 16.0,
                 ),
                 SharedCore.buildClickableTextForm(
+                  hint: 'Name',
+                  inputType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  onSubmitted: (text) {},
+                  onValidate: (text) {
+                    if (text?.isEmpty ?? true) {
+                      return 'user name is missing';
+                    } else {
+                      return null;
+                    }
+                  },
+                  onSaved: (text) {
+                    name = text!;
+                  },
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                SharedCore.buildClickableTextForm(
                   hint: 'Phone Number',
                   inputType: TextInputType.phone,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   onSubmitted: (text) {
                     FocusScope.of(context).requestFocus(_idNumberFocusNode);
                   },
@@ -126,39 +142,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     phone = text!;
                   },
                 ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                SharedCore.buildClickableTextForm(
-                  hint: 'Password',
-                  inputType: TextInputType.phone,
-                  textInputAction: TextInputAction.next,
-                  isObscure: true,
-                  onSubmitted: (text) {
-                    FocusScope.of(context).requestFocus(_idNumberFocusNode);
-                  },
-                  onValidate: (text) {
-                    if (text?.isEmpty ?? true) {
-                      return 'Please enter your password';
-                    } else {
-                      return null;
-                    }
-                  },
-                  onSaved: (text) {
-                    // phone = text!;
-                  },
-                ),
-                SizedBox(
+                const SizedBox(
                   height: 16.0,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: SharedCore.buildRoundedElevatedButton(
-                    btnChild: Text('Register'),
+                    btnChild: const Text('Register'),
                     onPress: _isLoading ? null : _registerUser,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16.0,
                 ),
                 SharedCore.buildTextButton(

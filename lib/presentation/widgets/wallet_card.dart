@@ -87,7 +87,7 @@ class WalletCard extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 16,
+                height: 8,
               ),
               RichText(
                 text: TextSpan(
@@ -98,7 +98,7 @@ class WalletCard extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
-                        fontSize: 24,
+                        fontSize: 20,
                         letterSpacing: 8,
                       ),
                     ),
@@ -107,14 +107,14 @@ class WalletCard extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
-                        fontSize: 32,
+                        fontSize: 28,
                         letterSpacing: 8,
                       ),
                     ),
                   ],
                 ),
               ),
-              Divider(
+              const Divider(
                 color: Colors.white,
               ),
               buildWalletCardListTileRow(

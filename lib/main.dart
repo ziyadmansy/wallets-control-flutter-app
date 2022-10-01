@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telephony/telephony.dart';
 import 'package:wallets_control/presentation/screens/home_screen.dart';
 import 'package:wallets_control/presentation/screens/login_screen.dart';
 import 'package:wallets_control/shared/constants.dart';
@@ -9,10 +10,12 @@ import 'package:wallets_control/shared/initial_app_binding.dart';
 import 'package:wallets_control/shared/routes.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:wallets_control/shared/shared_core.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -27,7 +30,33 @@ void main() async {
     }
   });
 
+  await validateSMSPermissions();
+
   runApp(const WalletsApp());
+}
+
+Future<void> validateSMSPermissions() async {
+  final Telephony telephony = Telephony.instance;
+
+  final isSMSpermissionsGranted = await telephony.requestPhoneAndSmsPermissions;
+
+  print('SMS Permission: $isSMSpermissionsGranted');
+
+  if (isSMSpermissionsGranted ?? false) {
+    telephony.listenIncomingSms(
+      onNewMessage: (SmsMessage message) {
+        // Handle message
+        print('Foreground SMS Received: ${message.body}');
+      },
+      onBackgroundMessage: backgroundMessageHandler,
+    );
+  }
+}
+
+backgroundMessageHandler(SmsMessage message) async {
+  //Handle background message
+  print('Background SMS Received: ${message.body}');
+  print(Telephony.backgroundInstance.simOperatorName);
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -56,6 +85,7 @@ class WalletsApp extends StatelessWidget {
           }
         },
       ),
+      // home: const HomeScreen(),
       theme: ThemeData.light(
         useMaterial3: true,
       ).copyWith(

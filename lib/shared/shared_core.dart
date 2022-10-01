@@ -1,6 +1,8 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/shared/constants.dart';
 
 class SharedCore {
@@ -8,6 +10,10 @@ class SharedCore {
   static final monthlyDateFormat = DateFormat('MMM, yyyy');
   static final timeFormat = DateFormat.jm();
   static final dateTimeFormat = DateFormat('dd-MM-yyyy').add_jm();
+
+  static String getAccessToken() {
+    return Get.find<AuthController>().accessToken.value;
+  }
 
   static Widget buildLoaderIndicator() {
     return const CircularProgressIndicator.adaptive();

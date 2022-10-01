@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telephony/telephony.dart';
 import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/exceptions/auth_exception.dart';
 import 'package:wallets_control/shared/constants.dart';
@@ -25,8 +26,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
+  Future<bool?> validateSMSPermissions() async {
+    final Telephony telephony = Telephony.instance;
+
+    return await telephony.requestPhoneAndSmsPermissions;
+  }
+
   void _loginMember() async {
     final isValid = _formKey.currentState?.validate();
+    final isSMSPermissionsValid = await validateSMSPermissions();
+    if (!(isSMSPermissionsValid ?? false)) {
+      Dialogs.showAwesomeDialog(
+        context: context,
+        title: 'SMS Permission Error',
+        body: 'Accept SMS Permissions to continue using the app',
+        dialogType: DialogType.error,
+        onCancel: null,
+        onConfirm: () {},
+        confirmBtnText: 'Close',
+        btnOkColor: redColor,
+      );
+      return;
+    }
+
     if (isValid ?? false) {
       _formKey.currentState?.save();
       FocusScope.of(context).unfocus();

@@ -7,6 +7,11 @@ const double kCardElevation = 8.0;
 const String playStoreAppUrl = '';
 const String privacyPolicyUrl = '';
 
+const String androidOSText = 'Android';
+const String iosOSText = 'IOS';
+
+const String defaultPassword = '123456';
+
 Color mainColor = Colors.lightBlue[900]!;
 Color redColor = Colors.red[600]!;
 Color greenColor = Colors.greenAccent[700]!;
