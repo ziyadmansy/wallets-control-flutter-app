@@ -12,11 +12,14 @@ const String iosOSText = 'IOS';
 
 const String defaultPassword = '123456';
 
+const String accessTokenPrefsKey = 'accessTokenPrefs';
+
 Color mainColor = Colors.lightBlue[900]!;
 Color redColor = Colors.red[600]!;
 Color greenColor = Colors.greenAccent[700]!;
 
 const String appLogoPath = 'assets/imgs/logo.png';
+const String imgBaseUrl = 'https://wallet.dotapps.net/public/Brands_Images';
 
 const int unauthenticatedStatusCode = 422;
 

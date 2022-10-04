@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:wallets_control/presentation/pages/profile_page.dart';
 import 'package:wallets_control/presentation/pages/settings_page.dart';
-import 'package:wallets_control/presentation/pages/wallets_page.dart';
 import 'package:wallets_control/shared/keep_alive.dart';
 import 'package:wallets_control/shared/routes.dart';
 import 'package:wallets_control/shared/shared_core.dart';
@@ -25,9 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _bottomNavItems = [
       {
-        'title': 'Wallets',
+        'title': 'Profile',
         'body': KeepAlivePage(
-          child: const WalletsPage(),
+          child: const ProfilePage(),
         ),
       },
       {

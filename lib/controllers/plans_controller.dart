@@ -29,9 +29,11 @@ class PlansController extends GetConnect {
         plans.value = (response.body['data'] as List)
             .map((plan) => PlanModel.fromJson(plan))
             .toList();
-            
+
         isLoading.value = false;
       }
-    } catch (e) {}
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
   }
 }

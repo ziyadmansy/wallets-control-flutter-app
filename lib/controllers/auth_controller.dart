@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallets_control/controllers/firebase_controller.dart';
 import 'package:wallets_control/exceptions/auth_exception.dart';
 import 'package:wallets_control/shared/api_routes.dart';
@@ -21,6 +22,7 @@ class AuthController extends GetConnect {
     required String walletPhone,
   }) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       const url = ApiRoutes.register;
       print(url);
 
@@ -59,6 +61,7 @@ class AuthController extends GetConnect {
         // Success - Account Created
         final decodedResponseBody = response.body;
         accessToken.value = 'Bearer ${decodedResponseBody['access_token']}';
+        await prefs.setString(accessTokenPrefsKey, accessToken.value);
         Get.snackbar('Success!', 'Account Created Successfully');
       } else {
         throw AuthException('Error - ${response.statusCode}');
@@ -71,6 +74,7 @@ class AuthController extends GetConnect {
 
   Future<void> loginUser({required String phone}) async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       const url = ApiRoutes.login;
       print(url);
 
@@ -96,7 +100,9 @@ class AuthController extends GetConnect {
         // Success - Account Created
         final decodedResponseBody = response.body;
         accessToken.value = 'Bearer ${decodedResponseBody['access_token']}';
+        await prefs.setString(accessTokenPrefsKey, accessToken.value);
         Get.snackbar('Success!', 'Logged in successfully');
+        Get.offNamed(AppRoutes.homeRoute);
       } else {
         throw AuthException('Error - ${response.statusCode}');
       }
@@ -108,6 +114,7 @@ class AuthController extends GetConnect {
 
   Future<void> logoutUser() async {
     try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
       const url = ApiRoutes.logout;
       print(url);
 
@@ -124,9 +131,10 @@ class AuthController extends GetConnect {
 
       final auth = FirebaseAuth.instance;
       accessToken.value = '';
+      await prefs.clear();
       await auth.signOut();
       print('Signed out successfully');
-      Get.toNamed('/');
+      Get.offAllNamed(AppRoutes.loginRoute);
       Get.snackbar('Success!', 'Logged out successfully');
     } catch (e) {
       print(e);

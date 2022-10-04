@@ -51,7 +51,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
             await auth.signInWithCredential(credential);
 
-            Get.toNamed('/');
+            Get.offNamed(AppRoutes.homeRoute);
           },
           verificationFailed: (FirebaseAuthException e) {
             print('verificationFailed');
@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               _isLoading = false;
             });
 
-            Get.toNamed('/');
+            Get.offNamed(AppRoutes.homeRoute);
           },
           codeAutoRetrievalTimeout: (String verificationId) {},
         );

@@ -3,7 +3,7 @@ import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/controllers/device_info_controller.dart';
 import 'package:wallets_control/controllers/firebase_controller.dart';
 import 'package:wallets_control/controllers/plans_controller.dart';
-import 'package:wallets_control/controllers/wallets_controller.dart';
+import 'package:wallets_control/controllers/user_controller.dart';
 
 class InitialBindings extends Bindings {
   @override
@@ -12,7 +12,7 @@ class InitialBindings extends Bindings {
       AuthController(),
       permanent: true,
     );
-    Get.put(WalletsController());
+    Get.put(UserController());
     Get.put(DeviceInfoController());
     Get.put(FirebaseController());
     Get.put(PlansController());

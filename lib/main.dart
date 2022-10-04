@@ -6,6 +6,7 @@ import 'package:telephony/telephony.dart';
 import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/presentation/screens/home_screen.dart';
 import 'package:wallets_control/presentation/screens/login_screen.dart';
+import 'package:wallets_control/presentation/screens/splash_screen.dart';
 import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/initial_app_binding.dart';
 import 'package:wallets_control/shared/routes.dart';
@@ -74,17 +75,14 @@ class WalletsApp extends StatelessWidget {
       title: 'Wallets Control',
       getPages: AppRoutes.routes,
       initialBinding: InitialBindings(),
-      home: Obx(() {
-        return SharedCore.getAccessToken().isEmpty
-            ? const LoginScreen()
-            : const HomeScreen();
-      }),
+      home: SplashScreen(),
       theme: ThemeData.light(
         useMaterial3: true,
       ).copyWith(
-          colorScheme: ColorScheme.fromSeed(
-        seedColor: mainColor,
-      )),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: mainColor,
+        ),
+      ),
     );
   }
 }

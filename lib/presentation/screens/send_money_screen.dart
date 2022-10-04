@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
-import 'package:wallets_control/controllers/wallets_controller.dart';
-import 'package:wallets_control/models/wallet.dart';
+import 'package:wallets_control/controllers/user_controller.dart';
+import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/user_wallet_model.dart';
 import 'package:wallets_control/presentation/widgets/wallet_card.dart';
 import 'package:wallets_control/shared/shared_core.dart';
 
@@ -15,9 +16,9 @@ class SendMoneyScreen extends StatefulWidget {
 }
 
 class _SendMoneyScreenState extends State<SendMoneyScreen> {
-  final walletsController = Get.find<WalletsController>();
+  final walletsController = Get.find<UserController>();
 
-  List<WalletModel> filteredWallets = [];
+  List<UserWalletModel> filteredWallets = [];
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +39,14 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                 decimal: true,
               ),
               onChanged: (amount) {
-                if (double.tryParse(amount!) != null) {
-                  filteredWallets = walletsController.wallets
-                      .where(
-                          (wal) => wal.remainingBalance >= double.parse(amount))
-                      .toList();
-                } else {
-                  filteredWallets = walletsController.wallets;
-                }
+                // if (double.tryParse(amount!) != null) {
+                //   filteredWallets = walletsController.availableWallets
+                //       .where((wal) =>
+                //           wal.receiveMonthlyLimit >= double.parse(amount))
+                //       .toList();
+                // } else {
+                //   filteredWallets = walletsController.availableWallets;
+                // }
                 setState(() {});
               },
             ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wallets_control/models/wallet.dart';
+import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/user_wallet_model.dart';
 import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/routes.dart';
+import 'package:wallets_control/shared/shared_core.dart';
 
 class WalletCard extends StatelessWidget {
-  final WalletModel wallet;
+  final UserWalletModel wallet;
 
   const WalletCard({required this.wallet});
 
@@ -48,7 +50,7 @@ class WalletCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
-      color: wallet.color,
+      // color: wallet.color,
       elevation: 8,
       child: InkWell(
         borderRadius: BorderRadius.circular(kBorderRadius),
@@ -70,14 +72,15 @@ class WalletCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Image.network(
-                        wallet.imgUrl,
+                        'wallet.imgUrl',
                         height: 75,
                         width: 75,
+                        errorBuilder: SharedCore.networkImageError,
                       ),
                     ),
                   ),
                   Text(
-                    wallet.name,
+                    'wallet.name',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w900,
@@ -93,8 +96,8 @@ class WalletCard extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text:
-                          wallet.number.substring(0, wallet.number.length - 4),
+                      text: wallet.walletNumber
+                          .substring(0, wallet.walletNumber.length - 4),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
@@ -103,7 +106,8 @@ class WalletCard extends StatelessWidget {
                       ),
                     ),
                     TextSpan(
-                      text: wallet.number.substring(wallet.number.length - 4),
+                      text: wallet.walletNumber
+                          .substring(wallet.walletNumber.length - 4),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
@@ -117,14 +121,16 @@ class WalletCard extends StatelessWidget {
               const Divider(
                 color: Colors.white,
               ),
-              buildWalletCardListTileRow(
-                title: 'Spent Balance',
-                value: wallet.spentBalance,
-              ),
-              buildWalletCardListTileRow(
-                title: 'Remaining Balance',
-                value: wallet.remainingBalance,
-              ),
+              // if (wallet.sendMonthlyLimit != null)
+              //   buildWalletCardListTileRow(
+              //     title: 'Spent Balance',
+              //     value: wallet.sendMonthlyLimit!,
+              //   ),
+              // if (wallet.receiveMonthlyLimit != null)
+              //   buildWalletCardListTileRow(
+              //     title: 'Remaining Balance',
+              //     value: wallet.receiveMonthlyLimit!,
+              //   ),
             ],
           ),
         ),

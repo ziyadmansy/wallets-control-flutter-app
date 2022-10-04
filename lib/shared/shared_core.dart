@@ -21,6 +21,12 @@ class SharedCore {
     return const CircularProgressIndicator.adaptive();
   }
 
+  static Widget networkImageError(context, e, st) {
+    return Center(
+      child: Icon(Icons.error),
+    );
+  }
+
   static AppBar buildAppBar({
     required String title,
   }) {
