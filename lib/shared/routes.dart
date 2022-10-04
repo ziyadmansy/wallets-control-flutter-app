@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:wallets_control/presentation/screens/home_screen.dart';
 import 'package:wallets_control/presentation/screens/login_screen.dart';
 import 'package:wallets_control/presentation/screens/otp_screen.dart';
+import 'package:wallets_control/presentation/screens/plans_screen.dart';
 import 'package:wallets_control/presentation/screens/register_screen.dart';
 import 'package:wallets_control/presentation/screens/send_money_screen.dart';
 import 'package:wallets_control/presentation/screens/subscription_details.dart';
@@ -16,6 +17,7 @@ class AppRoutes {
   static const String walletTransactionsRoute = '/walletTransactions';
   static const String sendMoneyRoute = '/sendMoney';
   static const String subscriptionRoute = '/subscription';
+  static const String plansRoute = '/plans';
 
   static final List<GetPage> routes = [
     GetPage(
@@ -45,6 +47,10 @@ class AppRoutes {
     GetPage(
       name: AppRoutes.subscriptionRoute,
       page: () => const SubscriptionScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.plansRoute,
+      page: () => const PlansScreen(),
     ),
   ];
 }

@@ -1,4 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,7 +18,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final _idNumberFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
 
   String name = '';
@@ -28,32 +28,96 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _registerUser() async {
     final isValid = _formKey.currentState?.validate();
     if (isValid ?? false) {
+      setState(() {
+        _isLoading = true;
+      });
+
       _formKey.currentState?.save();
       FocusScope.of(context).unfocus();
 
       try {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
         final authData = Get.find<AuthController>();
-        setState(() {
-          _isLoading = true;
-        });
-        // await authData.memberLogin(phone, id);
-        // await authData.sendDeviceInfo(1, '');
+
+        FirebaseAuth auth = FirebaseAuth.instance;
+
+        await auth.verifyPhoneNumber(
+          phoneNumber: phone,
+          verificationCompleted: (PhoneAuthCredential credential) async {
+            print('verificationCompleted');
+            print(credential.asMap());
+
+            // Register new user
+            await authData.registerUser(name: name, walletPhone: phone);
+
+            await auth.signInWithCredential(credential);
+
+            Get.toNamed('/');
+          },
+          verificationFailed: (FirebaseAuthException e) {
+            print('verificationFailed');
+            print(e.message);
+            print(e.code);
+            Dialogs.showAwesomeDialog(
+              context: context,
+              title: 'Wrong Credentials(${e.message})',
+              body: 'Wrong pin, please try again',
+              dialogType: DialogType.error,
+              onConfirm: () {
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              onCancel: null,
+            );
+          },
+          codeSent: (String verificationId, int? resendToken) async {
+            print('Code Sent - verificationId: $verificationId');
+
+            final String otp = await Get.toNamed(
+              AppRoutes.otpRoute,
+              arguments: phone,
+            );
+
+            PhoneAuthCredential credential = PhoneAuthProvider.credential(
+              verificationId: verificationId,
+              smsCode: otp,
+            );
+
+            // Sign the user in (or link) with the credential
+            await auth.signInWithCredential(credential);
+
+            // Register User to get access token
+            await authData.registerUser(name: name, walletPhone: phone);
+
+            setState(() {
+              _isLoading = false;
+            });
+
+            Get.toNamed('/');
+          },
+          codeAutoRetrievalTimeout: (String verificationId) {},
+        );
+      } on FirebaseAuthException catch (error) {
+        Get.snackbar(
+          'Wrong OTP',
+          error.code,
+          backgroundColor: redColor,
+        );
         setState(() {
           _isLoading = false;
         });
-      } on AuthException catch (error) {
+      } on AuthException catch (e) {
         Dialogs.showAwesomeDialog(
           context: context,
-          title: 'Wrong Credentials',
-          body: error.message,
+          title: e.message,
+          body: 'Something went wrong, please try again',
           dialogType: DialogType.error,
+          onCancel: null,
           onConfirm: () {
             setState(() {
               _isLoading = false;
             });
           },
-          onCancel: null,
         );
       } catch (error) {
         Dialogs.showAwesomeDialog(
@@ -109,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   textInputAction: TextInputAction.next,
                   onSubmitted: (text) {},
                   onValidate: (text) {
-                    if (text?.isEmpty ?? true) {
+                    if (text == null || text.isEmpty) {
                       return 'user name is missing';
                     } else {
                       return null;
@@ -123,17 +187,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 8,
                 ),
                 SharedCore.buildClickableTextForm(
-                  hint: 'Phone Number',
+                  hint: 'ex: +201022223333',
+                  label: 'Wallet Number',
                   inputType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
-                  onSubmitted: (text) {
-                    FocusScope.of(context).requestFocus(_idNumberFocusNode);
-                  },
                   onValidate: (text) {
-                    if (text?.isEmpty ?? true) {
-                      return 'Mobile number missing';
-                    } else if (text?.length != 11) {
-                      return 'Enter a valid mobile number';
+                    if (text == null || text.isEmpty) {
+                      return 'Wallet number missing';
+                    } else if (!text.startsWith('+')) {
+                      return 'Wallet number should start with the country code. ex: (+2)';
+                    } else if (text.length != 13) {
+                      return 'Enter a valid wallet number';
                     } else {
                       return null;
                     }
@@ -148,7 +212,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: SharedCore.buildRoundedElevatedButton(
-                    btnChild: const Text('Register'),
+                    btnChild: _isLoading
+                        ? SharedCore.buildLoaderIndicator()
+                        : const Text('Register'),
                     onPress: _isLoading ? null : _registerUser,
                   ),
                 ),

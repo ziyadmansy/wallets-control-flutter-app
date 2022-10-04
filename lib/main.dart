@@ -3,6 +3,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telephony/telephony.dart';
+import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/presentation/screens/home_screen.dart';
 import 'package:wallets_control/presentation/screens/login_screen.dart';
 import 'package:wallets_control/shared/constants.dart';
@@ -73,19 +74,11 @@ class WalletsApp extends StatelessWidget {
       title: 'Wallets Control',
       getPages: AppRoutes.routes,
       initialBinding: InitialBindings(),
-      home: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.data == null) {
-            print('User is currently signed out!');
-            return const LoginScreen();
-          } else {
-            print('User is currently Logged in!');
-            return const HomeScreen();
-          }
-        },
-      ),
-      // home: const HomeScreen(),
+      home: Obx(() {
+        return SharedCore.getAccessToken().isEmpty
+            ? const LoginScreen()
+            : const HomeScreen();
+      }),
       theme: ThemeData.light(
         useMaterial3: true,
       ).copyWith(

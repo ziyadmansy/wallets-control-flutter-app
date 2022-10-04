@@ -57,71 +57,22 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {
           _isLoading = true;
         });
+        final authController = Get.find<AuthController>();
 
-        FirebaseAuth auth = FirebaseAuth.instance;
-
-        await auth.verifyPhoneNumber(
-          phoneNumber: phone,
-          verificationCompleted: (PhoneAuthCredential credential) async {
-            print('verificationCompleted');
-            print(credential.asMap());
-
-            await auth.signInWithCredential(credential);
-
-            Get.offAndToNamed(AppRoutes.homeRoute);
-          },
-          verificationFailed: (FirebaseAuthException e) {
-            print('verificationFailed');
-            print(e.message);
-            print(e.code);
-            Dialogs.showAwesomeDialog(
-              context: context,
-              title: 'Wrong Credentials(${e.message})',
-              body: 'Wrong pin, please try again',
-              dialogType: DialogType.error,
-              onConfirm: () {
-                setState(() {
-                  _isLoading = false;
-                });
-              },
-              onCancel: null,
-            );
-          },
-          codeSent: (String verificationId, int? resendToken) async {
-            print('Code Sent - verificationId: $verificationId');
-
-            setState(() {
-              _isLoading = false;
-            });
-
-            final String otp = await Get.toNamed(
-              AppRoutes.otpRoute,
-              arguments: phone,
-            );
-
-            PhoneAuthCredential credential = PhoneAuthProvider.credential(
-              verificationId: verificationId,
-              smsCode: otp,
-            );
-            // Sign the user in (or link) with the credential
-            await auth.signInWithCredential(credential);
-
-            Get.offAndToNamed(AppRoutes.homeRoute);
-          },
-          codeAutoRetrievalTimeout: (String verificationId) {},
-        );
-      } on FirebaseAuthException catch (error) {
+        // Login User to get access token
+        await authController.loginUser(phone: phone);
+      } on AuthException catch (e) {
         Dialogs.showAwesomeDialog(
           context: context,
-          title: 'Wrong Credentials',
-          body: error.code,
+          title: e.message,
+          body: 'Something went wrong, please try again',
           dialogType: DialogType.error,
+          onCancel: null,
           onConfirm: () {
             setState(() {
               _isLoading = false;
             });
           },
-          onCancel: null,
         );
       } catch (error) {
         Dialogs.showAwesomeDialog(
@@ -173,19 +124,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SharedCore.buildClickableTextForm(
                   hint: 'ex: +201022223333',
-                  label: 'Phone Number',
+                  label: 'Wallet Number',
                   inputType: TextInputType.phone,
-                  textInputAction: TextInputAction.next,
+                  textInputAction: TextInputAction.done,
                   onSubmitted: (text) {
                     FocusScope.of(context).requestFocus(_idNumberFocusNode);
                   },
                   onValidate: (text) {
                     if (text == null || text.isEmpty) {
-                      return 'Mobile number missing';
+                      return 'Wallet number missing';
                     } else if (!text.startsWith('+')) {
-                      return 'phone number should start with the country code. ex: (+2)';
+                      return 'Wallet number should start with the country code. ex: (+2)';
                     } else if (text.length != 13) {
-                      return 'Enter a valid phone number';
+                      return 'Enter a valid wallet number';
                     } else {
                       return null;
                     }
@@ -202,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: SharedCore.buildRoundedElevatedButton(
                     btnChild: _isLoading
                         ? SharedCore.buildLoaderIndicator()
-                        : Text('Login'),
+                        : const Text('Login'),
                     onPress: _isLoading ? null : _loginMember,
                   ),
                 ),

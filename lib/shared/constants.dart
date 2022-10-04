@@ -18,6 +18,8 @@ Color greenColor = Colors.greenAccent[700]!;
 
 const String appLogoPath = 'assets/imgs/logo.png';
 
+const int unauthenticatedStatusCode = 422;
+
 final kEnabledBorder = OutlineInputBorder(
   borderRadius: BorderRadius.circular(4),
   borderSide: const BorderSide(

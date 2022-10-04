@@ -11,8 +11,10 @@ class SharedCore {
   static final timeFormat = DateFormat.jm();
   static final dateTimeFormat = DateFormat('dd-MM-yyyy').add_jm();
 
-  static String getAccessToken() {
-    return Get.find<AuthController>().accessToken.value;
+  static Rx<String> getAccessToken() {
+    final accessToken = Get.find<AuthController>().accessToken;
+    print('Access Token: ${accessToken.value}');
+    return accessToken;
   }
 
   static Widget buildLoaderIndicator() {

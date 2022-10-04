@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/shared/routes.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -27,13 +28,20 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
         ListTile(
+          title: Text('Plans'),
+          leading: Icon(Icons.published_with_changes),
+          trailing: Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            Get.toNamed(AppRoutes.plansRoute);
+          },
+        ),
+        ListTile(
           title: Text('Logout'),
           leading: Icon(Icons.logout),
           onTap: () async {
-            FirebaseAuth auth = FirebaseAuth.instance;
-            await auth.signOut();
-            print('Signed out successfully');
-            Get.toNamed('/');
+            final authController = Get.find<AuthController>();
+
+            await authController.logoutUser();
           },
         ),
       ],

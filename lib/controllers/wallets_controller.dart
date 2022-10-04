@@ -25,4 +25,6 @@ class WalletsController extends GetxController {
       isActivated: true,
     ),
   ].obs;
+
+  Future<void> getAllWallets() async {}
 }
