@@ -98,9 +98,9 @@ class SharedCore {
 
   static Widget buildRoundedIconElevatedButton({
     required String btnText,
-    required Color btnColor,
     required IconData icon,
-    required VoidCallback onPress,
+    required VoidCallback? onPress,
+    Color? btnColor,
     bool isEnabled = true,
   }) {
     return SizedBox(
@@ -184,9 +184,10 @@ class SharedCore {
     required BuildContext context,
     required T selectedItem,
     required List<T> items,
-    required bool Function(T, T) compareFn,
-    required String Function(T item) itemAsString,
-    String Function(T? val)? onValidate,
+    String Function(T item)? itemAsString,
+    bool Function(T, T)? compareFn,
+    bool Function(T, String)? filterFn,
+    String? Function(T? val)? onValidate,
     void Function(T? val)? onSaved,
     void Function(T? val)? onSubmitted,
     void Function(T?)? onChanged,
@@ -202,6 +203,7 @@ class SharedCore {
       compareFn: compareFn,
       itemAsString: itemAsString,
       validator: onValidate,
+      filterFn: filterFn,
       popupProps: PopupProps.dialog(
         showSearchBox: true,
         showSelectedItems: true,

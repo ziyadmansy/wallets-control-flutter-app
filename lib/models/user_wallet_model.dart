@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:wallets_control/models/available_wallet_model.dart';
+
 class UserWalletModel {
   final int id;
   final int brandId;
@@ -7,6 +9,7 @@ class UserWalletModel {
   final double balance;
   final double receiveLimitRemaining;
   final double sendLimitRemaining;
+  final WalletBrandModel walletBrand;
 
   UserWalletModel({
     required this.id,
@@ -15,6 +18,7 @@ class UserWalletModel {
     required this.balance,
     required this.receiveLimitRemaining,
     required this.sendLimitRemaining,
+    required this.walletBrand,
   });
 
   UserWalletModel copyWith({
@@ -24,6 +28,7 @@ class UserWalletModel {
     double? balance,
     double? receiveLimitRemaining,
     double? sendLimitRemaining,
+    WalletBrandModel? walletBrand,
   }) {
     return UserWalletModel(
       id: id ?? this.id,
@@ -33,6 +38,7 @@ class UserWalletModel {
       receiveLimitRemaining:
           receiveLimitRemaining ?? this.receiveLimitRemaining,
       sendLimitRemaining: sendLimitRemaining ?? this.sendLimitRemaining,
+      walletBrand: walletBrand ?? this.walletBrand,
     );
   }
 
@@ -55,6 +61,7 @@ class UserWalletModel {
       balance: double.parse(map['balance'].toString()),
       receiveLimitRemaining: double.parse(map['receive_limit_remaining']),
       sendLimitRemaining: double.parse(map['send_limit_remaining']),
+      walletBrand: WalletBrandModel.fromMap(map['wallet_brand']),
     );
   }
 

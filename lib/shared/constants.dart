@@ -12,6 +12,8 @@ const String iosOSText = 'IOS';
 
 const String defaultPassword = '123456';
 
+const String errorMsg = 'Something went wrong, please try again';
+
 const String accessTokenPrefsKey = 'accessTokenPrefs';
 
 Color mainColor = Colors.lightBlue[900]!;

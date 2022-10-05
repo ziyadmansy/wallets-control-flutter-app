@@ -63,7 +63,7 @@ class _PlansScreenState extends State<PlansScreen> {
                           child: Column(
                             children: [
                               Text(
-                                planItem.planNameEn,
+                                planItem.planName,
                                 style: TextStyle(
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold,

@@ -3,15 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:wallets_control/shared/constants.dart';
 
-class AvailableWalletModel {
+class WalletBrandModel {
   final int id;
   final String name;
   final String imgUrl;
-  final Color color;
+  final String color;
   final double sendMonthlyLimit;
   final double receiveMonthlyLimit;
 
-  AvailableWalletModel({
+  WalletBrandModel({
     required this.id,
     required this.name,
     required this.imgUrl,
@@ -20,15 +20,15 @@ class AvailableWalletModel {
     required this.receiveMonthlyLimit,
   });
 
-  AvailableWalletModel copyWith({
+  WalletBrandModel copyWith({
     int? id,
     String? name,
     String? imgUrl,
-    Color? color,
+    String? color,
     double? spentBalance,
     double? remainingBalance,
   }) {
-    return AvailableWalletModel(
+    return WalletBrandModel(
       id: id ?? this.id,
       name: name ?? this.name,
       imgUrl: imgUrl ?? this.imgUrl,
@@ -49,12 +49,12 @@ class AvailableWalletModel {
     };
   }
 
-  factory AvailableWalletModel.fromMap(Map<String, dynamic> map) {
-    return AvailableWalletModel(
+  factory WalletBrandModel.fromMap(Map<String, dynamic> map) {
+    return WalletBrandModel(
       id: map['id']?.toInt() ?? 0,
       name: map['brand_name_en'] ?? '',
       imgUrl: '$imgBaseUrl/${map['image']}',
-      color: map['main_color']?.toInt() ?? 0,
+      color: map['main_color'],
       sendMonthlyLimit: map['send_monthly_limit']?.toDouble() ?? 0.0,
       receiveMonthlyLimit: map['receive_monthly_limit']?.toDouble() ?? 0.0,
     );
@@ -62,8 +62,8 @@ class AvailableWalletModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AvailableWalletModel.fromJson(String source) =>
-      AvailableWalletModel.fromMap(json.decode(source));
+  factory WalletBrandModel.fromJson(String source) =>
+      WalletBrandModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -74,7 +74,7 @@ class AvailableWalletModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AvailableWalletModel &&
+    return other is WalletBrandModel &&
         other.id == id &&
         other.name == name &&
         other.imgUrl == imgUrl &&

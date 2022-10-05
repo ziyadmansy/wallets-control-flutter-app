@@ -20,14 +20,6 @@ class _SettingsPageState extends State<SettingsPage> {
     return ListView(
       children: [
         ListTile(
-          title: Text('Subscription Details'),
-          leading: Icon(Icons.monetization_on_outlined),
-          trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            Get.toNamed(AppRoutes.subscriptionRoute);
-          },
-        ),
-        ListTile(
           title: Text('Plans'),
           leading: Icon(Icons.published_with_changes),
           trailing: Icon(Icons.arrow_forward_ios),

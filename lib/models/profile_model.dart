@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:wallets_control/models/subscription_model.dart';
 
 import 'package:wallets_control/models/user_wallet_model.dart';
 
@@ -18,6 +19,7 @@ class ProfileModel {
   final String? osVersion;
   final String? model;
   final List<UserWalletModel> wallets;
+  final List<SubscriptionModel> subscriptions;
   ProfileModel({
     required this.id,
     required this.name,
@@ -32,6 +34,7 @@ class ProfileModel {
     this.osVersion,
     this.model,
     required this.wallets,
+    required this.subscriptions,
   });
 
   ProfileModel copyWith({
@@ -48,6 +51,7 @@ class ProfileModel {
     String? osVersion,
     String? model,
     List<UserWalletModel>? wallets,
+    List<SubscriptionModel>? subscriptions,
   }) {
     return ProfileModel(
       id: id ?? this.id,
@@ -63,6 +67,7 @@ class ProfileModel {
       osVersion: osVersion ?? this.osVersion,
       model: model ?? this.model,
       wallets: wallets ?? this.wallets,
+      subscriptions: subscriptions ?? this.subscriptions,
     );
   }
 
@@ -101,6 +106,9 @@ class ProfileModel {
       wallets: (map['wallets'] as List)
           .map((wallet) => UserWalletModel.fromMap(wallet))
           .toList(),
+      subscriptions: (map['subscriptions'] as List)
+          .map((sub) => SubscriptionModel.fromMap(sub))
+          .toList(),
     );
   }
 
@@ -111,7 +119,7 @@ class ProfileModel {
 
   @override
   String toString() {
-    return 'ProfileModel(id: $id, name: $name, email: $email, createdAt: $createdAt, phone: $phone, mainWalletPhone: $mainWalletPhone, appLang: $appLang, fcmToken: $fcmToken, uuid: $uuid, os: $os, osVersion: $osVersion, model: $model, wallets: $wallets)';
+    return 'ProfileModel(id: $id, name: $name, email: $email, createdAt: $createdAt, phone: $phone, mainWalletPhone: $mainWalletPhone, appLang: $appLang, fcmToken: $fcmToken, uuid: $uuid, os: $os, osVersion: $osVersion, model: $model, wallets: $wallets, subscriptions: $subscriptions)';
   }
 
   @override

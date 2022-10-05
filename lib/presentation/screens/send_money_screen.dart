@@ -16,7 +16,7 @@ class SendMoneyScreen extends StatefulWidget {
 }
 
 class _SendMoneyScreenState extends State<SendMoneyScreen> {
-  final walletsController = Get.find<UserController>();
+  final userController = Get.find<UserController>();
 
   List<UserWalletModel> filteredWallets = [];
 
@@ -62,7 +62,10 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                 : ListView.builder(
                     itemCount: filteredWallets.length,
                     itemBuilder: (context, i) {
-                      return WalletCard(wallet: filteredWallets[i]);
+                      final filteredUserWallet = filteredWallets[i];
+                      return WalletCard(
+                        userWallet: filteredUserWallet,
+                      );
                     },
                   ),
           ),

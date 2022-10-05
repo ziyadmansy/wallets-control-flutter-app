@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/models/available_wallet_model.dart';
 import 'package:wallets_control/models/profile_model.dart';
-import 'package:wallets_control/models/user_wallet_model.dart';
 import 'package:wallets_control/shared/api_routes.dart';
+import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/shared_core.dart';
 
 class UserController extends GetConnect {
   Rx<bool> isLoading = false.obs;
+  Rx<bool> hasCrashed = false.obs;
 
   Rx<ProfileModel> userProfile = ProfileModel(
     id: 0,
@@ -18,13 +20,15 @@ class UserController extends GetConnect {
     mainWalletPhone: '',
     appLang: '',
     wallets: [],
+    subscriptions: [],
   ).obs;
 
-  RxList<AvailableWalletModel> availableWallets = <AvailableWalletModel>[].obs;
+  RxList<WalletBrandModel> availableWallets = <WalletBrandModel>[].obs;
 
   Future<void> getUserProfile() async {
     try {
       isLoading.value = true;
+      hasCrashed.value = false;
 
       const url = ApiRoutes.profile;
       print(url);
@@ -40,19 +44,25 @@ class UserController extends GetConnect {
       print(response.statusCode);
 
       if (response.statusCode == 201) {
-        userProfile.value = ProfileModel.fromMap(response.body['user']);
-
+        userProfile.value = ProfileModel.fromMap(response.body);
         isLoading.value = false;
+        hasCrashed.value = false;
+      } else if (response.statusCode == unauthenticatedStatusCode) {
+        final authController = Get.find<AuthController>();
+        await authController.logoutUser();
+      } else {
+        throw Exception(errorMsg);
       }
     } catch (e) {
+      isLoading.value = false;
+      hasCrashed.value = true;
+      print(e.toString());
       Get.snackbar('Error', e.toString());
     }
   }
 
   Future<void> getAvailableWallets() async {
     try {
-      isLoading.value = true;
-
       const url = ApiRoutes.walletsBrands;
       print(url);
 
@@ -68,12 +78,16 @@ class UserController extends GetConnect {
 
       if (response.statusCode == 200) {
         availableWallets.value = (response.body['data'] as List)
-            .map((wallet) => AvailableWalletModel.fromJson(wallet))
+            .map((wallet) => WalletBrandModel.fromMap(wallet))
             .toList();
-
-        isLoading.value = false;
+      } else if (response.statusCode == unauthenticatedStatusCode) {
+        final authController = Get.find<AuthController>();
+        await authController.logoutUser();
+      } else {
+        throw Exception(errorMsg);
       }
     } catch (e) {
+      print(e.toString());
       Get.snackbar('Error', e.toString());
     }
   }

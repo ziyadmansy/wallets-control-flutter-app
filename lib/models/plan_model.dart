@@ -1,51 +1,90 @@
+import 'dart:convert';
+
 class PlanModel {
   final int id;
-  final String planNameEn;
-  final String planNameAr;
-  final int amount;
+  final String planName;
+  final double amount;
   final String expiry;
   final int walletsLimit;
   final String createdAt;
-  final String? updatedAt;
-  final String? deletedAt;
-
   PlanModel({
     required this.id,
-    required this.planNameEn,
-    required this.planNameAr,
+    required this.planName,
     required this.amount,
     required this.expiry,
     required this.walletsLimit,
     required this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
   });
 
-  factory PlanModel.fromJson(Map<String, dynamic> json) {
+  PlanModel copyWith({
+    int? id,
+    String? planName,
+    double? amount,
+    String? expiry,
+    int? walletsLimit,
+    String? createdAt,
+  }) {
     return PlanModel(
-      id: json['id'],
-      planNameEn: json['plan_name_en'],
-      planNameAr: json['plan_name_ar'],
-      amount: json['amount'],
-      expiry: json['expiry'],
-      walletsLimit: json['wallets_limit'],
-      createdAt: json['created_at'],
-      updatedAt: json['updated_at'],
-      deletedAt: json['deleted_at'],
+      id: id ?? this.id,
+      planName: planName ?? this.planName,
+      amount: amount ?? this.amount,
+      expiry: expiry ?? this.expiry,
+      walletsLimit: walletsLimit ?? this.walletsLimit,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['plan_name_en'] = this.planNameEn;
-    data['plan_name_ar'] = this.planNameAr;
-    data['amount'] = this.amount;
-    data['expiry'] = this.expiry;
-    data['wallets_limit'] = this.walletsLimit;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['deleted_at'] = this.deletedAt;
-    return data;
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'planName': planName,
+      'amount': amount,
+      'expiry': expiry,
+      'walletsLimit': walletsLimit,
+      'createdAt': createdAt,
+    };
+  }
+
+  factory PlanModel.fromMap(Map<String, dynamic> map) {
+    return PlanModel(
+      id: map['id'],
+      planName: map['plan_name_en'],
+      amount: double.parse(map['amount'].toString()),
+      expiry: map['expiry'],
+      walletsLimit: map['wallets_limit'],
+      createdAt: map['created_at'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory PlanModel.fromJson(String source) => PlanModel.fromMap(json.decode(source) as Map<String, dynamic>);
+
+  @override
+  String toString() {
+    return 'PlanModel(id: $id, planName: $planName, amount: $amount, expiry: $expiry, walletsLimit: $walletsLimit, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(covariant PlanModel other) {
+    if (identical(this, other)) return true;
+  
+    return 
+      other.id == id &&
+      other.planName == planName &&
+      other.amount == amount &&
+      other.expiry == expiry &&
+      other.walletsLimit == walletsLimit &&
+      other.createdAt == createdAt;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+      planName.hashCode ^
+      amount.hashCode ^
+      expiry.hashCode ^
+      walletsLimit.hashCode ^
+      createdAt.hashCode;
   }
 }

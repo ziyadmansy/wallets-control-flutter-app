@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:wallets_control/controllers/auth_controller.dart';
 import 'package:wallets_control/models/plan_model.dart';
 import 'package:wallets_control/shared/api_routes.dart';
+import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/shared_core.dart';
 
 class PlansController extends GetConnect {
@@ -27,10 +29,13 @@ class PlansController extends GetConnect {
 
       if (response.statusCode == 200) {
         plans.value = (response.body['data'] as List)
-            .map((plan) => PlanModel.fromJson(plan))
+            .map((plan) => PlanModel.fromMap(plan))
             .toList();
 
         isLoading.value = false;
+      } else if (response.statusCode == unauthenticatedStatusCode) {
+        final authController = Get.find<AuthController>();
+        await authController.logoutUser();
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
