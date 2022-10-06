@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallets_control/controllers/auth_controller.dart';
@@ -80,6 +82,78 @@ class UserController extends GetConnect {
         availableWallets.value = (response.body['data'] as List)
             .map((wallet) => WalletBrandModel.fromMap(wallet))
             .toList();
+      } else if (response.statusCode == unauthenticatedStatusCode) {
+        final authController = Get.find<AuthController>();
+        await authController.logoutUser();
+      } else {
+        throw Exception(errorMsg);
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('Error', e.toString());
+      rethrow;
+    }
+  }
+
+  Future<void> addUserWallet({
+    required int walletId,
+    required String phone,
+    required String balance,
+  }) async {
+    try {
+      const url = ApiRoutes.addWallet;
+      print(url);
+
+      final Response response = await post(
+        url,
+        json.encode({
+          'brand_id': walletId,
+          'phone_number': phone,
+          'balance': balance,
+        }),
+        headers: {
+          'Authorization': SharedCore.getAccessToken().value,
+        },
+      );
+
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        Get.back();
+        Get.snackbar('Success!', 'Wallet added successfully');
+      } else if (response.statusCode == unauthenticatedStatusCode) {
+        final authController = Get.find<AuthController>();
+        await authController.logoutUser();
+      } else {
+        throw Exception(errorMsg);
+      }
+    } catch (e) {
+      print(e.toString());
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  Future<void> deleteUserWallet(int walletId) async {
+    try {
+      final url = ApiRoutes.deleteWallet(walletId);
+      print(url);
+
+      final Response response = await delete(
+        url,
+        headers: {
+          'Authorization': SharedCore.getAccessToken().value,
+        },
+      );
+
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        userProfile.value.wallets
+            .removeWhere((element) => element.id == walletId);
+        userProfile.refresh();
+        Get.snackbar('Success!', 'Wallet deleted successfully');
       } else if (response.statusCode == unauthenticatedStatusCode) {
         final authController = Get.find<AuthController>();
         await authController.logoutUser();

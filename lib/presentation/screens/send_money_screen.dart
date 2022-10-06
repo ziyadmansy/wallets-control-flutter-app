@@ -65,6 +65,7 @@ class _SendMoneyScreenState extends State<SendMoneyScreen> {
                       final filteredUserWallet = filteredWallets[i];
                       return WalletCard(
                         userWallet: filteredUserWallet,
+                        onDeletePress: null,
                       );
                     },
                   ),

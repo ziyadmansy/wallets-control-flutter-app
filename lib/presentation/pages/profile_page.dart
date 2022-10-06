@@ -164,6 +164,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                       width: Get.width / 1.25,
                                       child: WalletCard(
                                         userWallet: userWalletItem,
+                                        onDeletePress: () async {
+                                          await userController.deleteUserWallet(
+                                              userWalletItem.id);
+                                        },
                                       ),
                                     );
                                   },

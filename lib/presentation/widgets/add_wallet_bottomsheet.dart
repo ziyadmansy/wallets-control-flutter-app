@@ -12,6 +12,8 @@ class AddWalletBottomSheet extends StatefulWidget {
 }
 
 class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
+  bool isLoadingSubmit = false;
+
   final userController = Get.find<UserController>();
 
   final phoneTextController = TextEditingController();
@@ -20,6 +22,25 @@ class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
   WalletBrandModel? selectedWalletBrand;
 
   final formKey = GlobalKey<FormState>();
+
+  Future<void> submitNewWallet() async {
+    final isValid = formKey.currentState?.validate();
+    if (isValid ?? false) {
+      setState(() {
+        isLoadingSubmit = true;
+      });
+      await userController.addUserWallet(
+        walletId: selectedWalletBrand!.id,
+        phone: phoneTextController.text,
+        balance: balanceController.text,
+      );
+      await userController.getUserProfile();
+      setState(() {
+        isLoadingSubmit = false;
+      });
+      
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +106,9 @@ class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
               context: context,
               selectedItem: selectedWalletBrand,
               items: userController.availableWallets,
+              onChanged: (wallet) {
+                selectedWalletBrand = wallet;
+              },
               itemAsString: (walletBrand) {
                 return walletBrand?.name ?? '';
               },
@@ -109,11 +133,10 @@ class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
             SizedBox(
               width: Get.width,
               child: SharedCore.buildRoundedElevatedButton(
-                btnChild: Text('Submit'),
-                onPress: () {
-                  final isValid = formKey.currentState?.validate();
-                  if (isValid ?? false) {}
-                },
+                btnChild: isLoadingSubmit
+                    ? SharedCore.buildLoaderIndicator()
+                    : Text('Submit'),
+                onPress: isLoadingSubmit ? null : submitNewWallet,
               ),
             ),
           ],
