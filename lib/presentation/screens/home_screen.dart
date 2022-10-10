@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:telephony/telephony.dart';
+import 'package:wallets_control/controllers/messages_controller.dart';
 import 'package:wallets_control/presentation/pages/profile_page.dart';
 import 'package:wallets_control/presentation/pages/settings_page.dart';
+import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/keep_alive.dart';
 import 'package:wallets_control/shared/routes.dart';
 import 'package:wallets_control/shared/shared_core.dart';
@@ -34,6 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       },
     ];
+
+    getSMSMessages();
+  }
+
+  Future<void> getSMSMessages() async {
+    final Telephony telephony = Telephony.instance;
+
+    List<SmsMessage> messages = await telephony.getInboxSms(
+      columns: [
+        SmsColumn.ADDRESS,
+        SmsColumn.BODY,
+      ],
+      filter: SmsFilter.where(SmsColumn.ADDRESS).equals(vodafoneCashAddress),
+      // .or(SmsColumn.ADDRESS) // Phase 2 for other wallets
+      // .equals("Et-Cash"),
+      sortOrder: [
+        OrderBy(SmsColumn.DATE_SENT, sort: Sort.ASC),
+      ],
+    );
+
+    final msgsController = Get.find<MessagesController>();
+    await msgsController.submitSmsMsg(messages);
   }
 
   @override

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const String vodafoneCashAddress = 'VF-Cash';
+
 const double kBorderRadius = 12.0;
 const double kSearchFieldBorderRadius = 24.0;
 const double kCardElevation = 8.0;

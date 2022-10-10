@@ -63,8 +63,8 @@ backgroundMessageHandler(SmsMessage message) async {
   // Gets all SMS msgs with filter
   // print(Telephony.backgroundInstance.getInboxSms());
 
-  final msgsController = Get.find<MessagesController>();
-  await msgsController.submitSmsMsg(walletId: 0, msg: message.body ?? '');
+  // final msgsController = Get.find<MessagesController>();
+  // await msgsController.submitSmsMsg(walletId: 0, msg: message.body ?? '');
 }
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {

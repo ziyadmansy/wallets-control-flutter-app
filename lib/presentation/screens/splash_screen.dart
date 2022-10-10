@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:telephony/telephony.dart';
 import 'package:wallets_control/controllers/auth_controller.dart';
+import 'package:wallets_control/controllers/messages_controller.dart';
 import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/routes.dart';
 
@@ -19,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(
-      Duration(seconds: 1),
+      Duration.zero,
       () async {
         final authController = Get.find<AuthController>();
         SharedPreferences prefs = await SharedPreferences.getInstance();
