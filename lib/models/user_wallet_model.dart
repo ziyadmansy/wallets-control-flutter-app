@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/wallet_brand_model.dart';
 
 class UserWalletModel {
   final int id;

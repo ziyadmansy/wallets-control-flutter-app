@@ -1,0 +1,4 @@
+enum SendReceive {
+  send,
+  receive,
+}

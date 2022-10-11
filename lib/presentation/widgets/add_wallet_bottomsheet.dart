@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallets_control/controllers/user_controller.dart';
-import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/wallet_brand_model.dart';
 import 'package:wallets_control/shared/shared_core.dart';
 
 class AddWalletBottomSheet extends StatefulWidget {

@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallets_control/controllers/auth_controller.dart';
-import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/enums/send_receive_enum.dart';
+import 'package:wallets_control/models/wallet_brand_model.dart';
 import 'package:wallets_control/models/profile_model.dart';
 import 'package:wallets_control/shared/api_routes.dart';
 import 'package:wallets_control/shared/constants.dart';
@@ -12,6 +13,9 @@ import 'package:wallets_control/shared/shared_core.dart';
 class UserController extends GetConnect {
   Rx<bool> isLoading = false.obs;
   Rx<bool> hasCrashed = false.obs;
+
+  Rx<SendReceive> sendReceiveMoney = SendReceive.send.obs;
+  TextEditingController moneyQueryController = TextEditingController();
 
   Rx<ProfileModel> userProfile = ProfileModel(
     id: 0,

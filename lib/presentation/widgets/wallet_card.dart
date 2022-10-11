@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/wallet_brand_model.dart';
 import 'package:wallets_control/models/user_wallet_model.dart';
 import 'package:wallets_control/shared/constants.dart';
 import 'package:wallets_control/shared/routes.dart';
@@ -19,6 +19,9 @@ class WalletCard extends StatelessWidget {
     return ListTile(
       title: Text(
         title,
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
       trailing: Container(
         width: 100,
@@ -44,7 +47,7 @@ class WalletCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
-      // color: wallet.color,
+      color: userWallet.walletBrand.color,
       elevation: 8,
       margin: const EdgeInsets.all(8),
       child: InkWell(

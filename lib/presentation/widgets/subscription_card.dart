@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wallets_control/models/available_wallet_model.dart';
+import 'package:wallets_control/models/wallet_brand_model.dart';
 import 'package:wallets_control/models/subscription_model.dart';
 import 'package:wallets_control/models/user_wallet_model.dart';
 import 'package:wallets_control/shared/constants.dart';

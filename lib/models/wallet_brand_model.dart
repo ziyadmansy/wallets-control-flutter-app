@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:wallets_control/shared/constants.dart';
+import 'package:wallets_control/shared/extensions.dart';
 
 class WalletBrandModel {
   final int id;
   final String name;
   final String imgUrl;
-  final String color;
+  final Color color;
   final double sendMonthlyLimit;
   final double receiveMonthlyLimit;
 
@@ -24,7 +25,7 @@ class WalletBrandModel {
     int? id,
     String? name,
     String? imgUrl,
-    String? color,
+    Color? color,
     double? spentBalance,
     double? remainingBalance,
   }) {
@@ -43,7 +44,7 @@ class WalletBrandModel {
       'id': id,
       'name': name,
       'imgUrl': imgUrl,
-      'color': color,
+      'color': color.toString(),
       'spentBalance': sendMonthlyLimit,
       'remainingBalance': receiveMonthlyLimit,
     };
@@ -54,7 +55,7 @@ class WalletBrandModel {
       id: map['id']?.toInt() ?? 0,
       name: map['brand_name_en'] ?? '',
       imgUrl: '$imgBaseUrl/${map['image']}',
-      color: map['main_color'],
+      color: (map['main_color'].toString()).toColor(),
       sendMonthlyLimit: map['send_monthly_limit']?.toDouble() ?? 0.0,
       receiveMonthlyLimit: map['receive_monthly_limit']?.toDouble() ?? 0.0,
     );
