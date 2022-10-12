@@ -13,7 +13,7 @@ class MessagesController extends GetConnect {
   Future<void> submitSmsMsg(List<SmsMessage> msgs) async {
     try {
       if (msgs.isEmpty) {
-        Get.snackbar('Error', 'SMS Messages have no $vodafoneCashAddress');
+        Get.snackbar('Empty Msgs', 'SMS Messages have no $vodafoneCashAddress');
         return;
       }
 

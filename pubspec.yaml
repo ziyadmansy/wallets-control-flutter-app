@@ -27,6 +27,7 @@ dependencies:
   android_id: ^0.0.7
 
   telephony: ^0.2.0
+  call_log: ^4.0.0
   
   # Firebase tools
   firebase_core: ^1.22.0

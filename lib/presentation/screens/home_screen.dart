@@ -1,3 +1,4 @@
+import 'package:call_log/call_log.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telephony/telephony.dart';
@@ -39,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     getSMSMessages();
+    getCallLogs();
   }
 
   Future<void> getSMSMessages() async {
@@ -59,6 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final msgsController = Get.find<MessagesController>();
     await msgsController.submitSmsMsg(messages);
+  }
+
+  Future<void> getCallLogs() async {
+    Iterable<CallLogEntry> entries = await CallLog.get();
   }
 
   @override
