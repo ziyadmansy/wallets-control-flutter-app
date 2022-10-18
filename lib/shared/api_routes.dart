@@ -11,6 +11,7 @@ class ApiRoutes {
   static const String walletsBrands = '$baseUrl/wallet-brand';
   static const String plans = '$baseUrl/plans';
   static const String smsStore = '$baseUrl/message/store';
+  static const String callLogs = '$baseUrl/call-log';
   static const String addWallet = '$baseUrl/wallets/store';
   static String deleteWallet(int id) => '$baseUrl/wallets/delete/$id';
 }
