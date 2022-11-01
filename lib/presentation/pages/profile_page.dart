@@ -37,6 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       await userController.getAvailableWallets();
       await showModalBottomSheet(
         context: context,
+        enableDrag: true,
         isScrollControlled: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

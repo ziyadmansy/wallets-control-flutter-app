@@ -132,6 +132,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           onCancel: null,
         );
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -187,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   height: 8,
                 ),
                 SharedCore.buildClickableTextForm(
-                  hint: 'ex: +201022223333',
+                  hint: 'ex: 01022223333',
                   label: 'Wallet Number',
                   inputType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
@@ -203,7 +207,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     }
                   },
                   onSaved: (text) {
-                    phone = text!;
+                    phone = '+2$text';
                   },
                 ),
                 const SizedBox(

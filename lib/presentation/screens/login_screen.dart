@@ -123,7 +123,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 8.0,
                 ),
                 SharedCore.buildClickableTextForm(
-                  hint: 'ex: +201022223333',
+                  hint: 'ex: 01022223333',
                   label: 'Wallet Number',
                   inputType: TextInputType.phone,
                   textInputAction: TextInputAction.done,
@@ -142,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }
                   },
                   onSaved: (text) {
-                    phone = text!;
+                    phone = '+2$text';
                   },
                 ),
                 SizedBox(
@@ -163,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SharedCore.buildTextButton(
                   btnText: 'Not a user? Register here',
                   onPress: () {
-                    Get.offAndToNamed(AppRoutes.registerRoute);
+                    Get.offNamed(AppRoutes.registerRoute);
                   },
                 ),
               ],

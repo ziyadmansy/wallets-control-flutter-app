@@ -38,7 +38,6 @@ class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
       setState(() {
         isLoadingSubmit = false;
       });
-      
     }
   }
 
@@ -49,7 +48,7 @@ class _AddWalletBottomSheetState extends State<AddWalletBottomSheet> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),

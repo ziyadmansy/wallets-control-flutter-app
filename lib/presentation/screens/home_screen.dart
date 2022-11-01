@@ -40,7 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     getSMSMessages();
-    submitCallLogs();
   }
 
   Future<void> getSMSMessages() async {
@@ -61,13 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final msgsController = Get.find<MessagesController>();
     await msgsController.submitSmsMsgs(messages);
-  }
-
-  Future<void> submitCallLogs() async {
-    Iterable<CallLogEntry> entries = await CallLog.get();
-
-    final msgsController = Get.find<MessagesController>();
-    await msgsController.submitCallLogs(entries.toList());
   }
 
   @override
